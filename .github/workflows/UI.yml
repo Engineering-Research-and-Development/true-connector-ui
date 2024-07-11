@@ -17,5 +17,5 @@ jobs:
       - name: Set execute permission for deploy.sh
         run: chmod +x ./ci/deploy.sh
 
-      - name: Run Creating Docker Image from DataApp repo
+      - name: Run Creating Docker Image from TRUE Connector UI repo
         run: ./ci/deploy.sh
