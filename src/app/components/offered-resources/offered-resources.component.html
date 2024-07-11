@@ -1,0 +1,78 @@
+<div *ngIf="loading" class="item">
+  <mat-card class="self-description-card">
+    <ngx-skeleton-loader count="15" appearance="line" animation="pulse" />
+  </mat-card>
+</div>
+
+<div *ngIf="!loading">
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <h1>Manage Offered Resources</h1>
+        </div>
+        <div class="buttons">
+          <button mat-button><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+      <div class="space-card">
+        <div *ngFor="let offeredResource of offeredResources">
+          <div class="card">
+            <div class="title">
+              {{ offeredResource["ids:title"][0]["@value"] }}
+            </div>
+            <div class="subtitle">
+              {{ offeredResource["ids:version"] }}
+            </div>
+            <div class="content">
+              <p>
+                <strong>Type:</strong>
+                {{ removeIdsPrefix(offeredResource["@type"]) }}
+              </p>
+              <p>
+                <strong>Description:</strong>
+                {{ offeredResource["ids:description"][0]["@value"] }}
+              </p>
+              <p>
+                <strong>Created:</strong>
+                {{
+                  offeredResource["ids:created"]["@value"]
+                    | date : "d MMMM y, HH:mm:ss"
+                }}
+              </p>
+              <p>
+                <strong>Modified:</strong>
+                {{
+                  offeredResource["ids:modified"]["@value"]
+                    | date : "d MMMM y, HH:mm:ss"
+                }}
+              </p>
+              <p>
+                <strong>Contract Offers:</strong>
+                {{ offeredResource["ids:contractOffer"].length }}
+              </p>
+              <p>
+                <strong>Representation:</strong>
+                {{ offeredResource["ids:representation"].length }}
+              </p>
+            </div>
+            <div class="btn-action">
+              <button
+                mat-button
+                (click)="navigateToOfferedResourceDetails(offeredResource)"
+                d
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-button><mat-icon>edit</mat-icon></button>
+              <button mat-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

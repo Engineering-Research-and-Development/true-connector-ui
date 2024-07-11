@@ -1,0 +1,137 @@
+<div>
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <button mat-button (click)="goBack()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            Back
+          </button>
+          <h1>Offered Resource Details</h1>
+        </div>
+
+        <div class="buttons">
+          <button mat-button><mat-icon>edit</mat-icon></button>
+          <button mat-button color="warn"><mat-icon>delete</mat-icon></button>
+        </div>
+      </div>
+
+      <h2>{{ offeredResource["ids:title"][0]["@value"] }}</h2>
+      <div class="self-description-content">
+        <p><strong>ID:</strong> {{ offeredResource["@id"] }}</p>
+        <p>
+          <strong>Type:</strong>
+          {{ removeIdsPrefix(offeredResource["@type"]) }}
+        </p>
+        <p>
+          <strong>Description:</strong>
+          {{ offeredResource["ids:description"][0]["@value"] }}
+        </p>
+
+        <p>
+          <strong>Keywords:</strong>
+          <span
+            *ngFor="
+              let keyword of offeredResource['ids:keyword'];
+              let i = index
+            "
+          >
+            {{ keyword["@value"]
+            }}<span *ngIf="i < offeredResource['ids:keyword'].length - 1"
+              >,
+            </span>
+          </span>
+        </p>
+        <p>
+          <strong>Language:</strong>
+          <span
+            *ngFor="
+              let language of offeredResource['ids:language'];
+              let i = index
+            "
+          >
+            {{ getLanguageCode(language["@id"])
+            }}<span *ngIf="i < offeredResource['ids:language'].length - 1"
+              >,
+            </span>
+          </span>
+        </p>
+        <p>
+          <strong>Content Type:</strong>
+          {{ removeIdsaCodePrefix(offeredResource["ids:contentType"]["@id"]) }}
+        </p>
+        <p>
+          <strong>Version:</strong>
+          {{ offeredResource["ids:version"] }}
+        </p>
+        <p>
+          <strong>Created:</strong>
+          {{
+            offeredResource["ids:created"]["@value"]
+              | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+        <p>
+          <strong>Modified:</strong>
+          {{
+            offeredResource["ids:modified"]["@value"]
+              | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+        <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Contract Offers</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div
+            *ngFor="let contractOffer of offeredResource['ids:contractOffer']"
+            class="resource-section"
+          >
+            <div>
+              <p>{{ contractOffer["@id"] }}</p>
+              <button
+                mat-button
+                (click)="
+                  navigateToContractOfferDetails(
+                    contractOffer,
+                    offeredResource['@id']
+                  )
+                "
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+
+            <hr />
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Representations</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div
+            *ngFor="let representation of offeredResource['ids:representation']"
+            class="resource-section"
+          >
+            <div>
+              <p>{{ representation["ids:instance"][0]["@id"] }}</p>
+              <button
+                mat-button
+                (click)="
+                  navigateToRepresentationDetails(
+                    representation,
+                    offeredResource['@id']
+                  )
+                "
+                alt="View details"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+            <hr />
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

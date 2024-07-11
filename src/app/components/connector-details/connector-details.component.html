@@ -1,0 +1,68 @@
+<div *ngIf="loading" class="item">
+  <mat-card class="self-description-card">
+    <ngx-skeleton-loader count="15" appearance="line" animation="pulse" />
+  </mat-card>
+</div>
+
+<div *ngIf="!loading">
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"></mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <h1>Connector configuration details</h1>
+        </div>
+      </div>
+      <div class="content-flex">
+        <div class="column">
+          <div
+            *ngFor="
+              let detail of environmentDetails
+                | slice : 0 : environmentDetails.length / 2
+            "
+          >
+            <p>
+              <strong>{{ detail.displayKey }}: </strong>
+              <ng-container *ngIf="detail.value === 'true'; else notTrue">
+                <mat-icon color="primary">check_circle</mat-icon>
+              </ng-container>
+              <ng-template #notTrue>
+                <ng-container *ngIf="detail.value === 'false'; else notFalse">
+                  <mat-icon color="#8a9eed5c">cancel</mat-icon>
+                </ng-container>
+                <ng-template #notFalse>
+                  {{ detail.value }}
+                </ng-template>
+              </ng-template>
+            </p>
+          </div>
+        </div>
+        <div class="column">
+          <div
+            *ngFor="
+              let detail of environmentDetails
+                | slice
+                  : environmentDetails.length / 2
+                  : environmentDetails.length
+            "
+          >
+            <p>
+              <strong>{{ detail.displayKey }}:</strong>
+              <ng-container *ngIf="detail.value === 'true'; else notTrue">
+                <mat-icon color="primary">check_circle</mat-icon>
+              </ng-container>
+              <ng-template #notTrue>
+                <ng-container *ngIf="detail.value === 'false'; else notFalse">
+                  <mat-icon color="#8a9eed5c">cancel</mat-icon>
+                </ng-container>
+                <ng-template #notFalse>
+                  {{ detail.value }}
+                </ng-template>
+              </ng-template>
+            </p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

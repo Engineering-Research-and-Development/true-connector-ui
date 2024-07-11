@@ -1,0 +1,167 @@
+<div *ngIf="isProviderLoggedIn || isConsumerLoggedIn">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name">
+      <img
+        src="assets/img/tc_logo.png"
+        alt="True Connector Logo"
+        class="header-image"
+      />
+      V1.0.9
+    </h1>
+    <span class="spacer"></span>
+
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <div class="user-info">
+        <p>{{ userName }}</p>
+        <p *ngIf="currentUserType === 'provider'">Provider</p>
+        <p *ngIf="currentUserType === 'consumer'">Consumer</p>
+      </div>
+      <ng-container
+        *ngIf="
+          authService.isAuthenticated('provider') &&
+          authService.isAuthenticated('consumer')
+        "
+      >
+        <mat-divider></mat-divider>
+        <button
+          *ngIf="currentUserType === 'consumer'"
+          mat-menu-item
+          (click)="setAccountType('provider')"
+        >
+          <mat-icon>person</mat-icon>
+          <span>Switch to Provider</span>
+        </button>
+        <button
+          *ngIf="currentUserType === 'provider'"
+          mat-menu-item
+          (click)="setAccountType('consumer')"
+        >
+          <mat-icon>person</mat-icon>
+          <span>Switch to Consumer</span>
+        </button>
+      </ng-container>
+      <button
+        *ngIf="
+          authService.isAuthenticated('provider') &&
+          !authService.isAuthenticated('consumer')
+        "
+        mat-menu-item
+        (click)="loginAsDifferentUser()"
+      >
+        <mat-icon>person</mat-icon>
+        <span>Login as consumer</span>
+      </button>
+      <button
+        *ngIf="
+          authService.isAuthenticated('consumer') &&
+          !authService.isAuthenticated('provider')
+        "
+        mat-menu-item
+        (click)="loginAsDifferentUser()"
+      >
+        <mat-icon>person</mat-icon>
+        <span>Login as provider</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+</div>
+<mat-sidenav-container class="container" autosize>
+  <mat-sidenav #sidenav class="sidenav" mode="side" [opened]="isExpanded">
+    <mat-nav-list>
+      <div *ngIf="currentUserType === 'provider'">
+        <mat-expansion-panel #providerPanel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon mat-list-icon>edit_document</mat-icon>
+              <span>SelfDescription Management</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a routerLink="/connector-configuration-details">
+            <mat-list-item>
+              <mat-icon>settings</mat-icon>
+              <span>Connector configuration details</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/self-description">
+            <mat-list-item>
+              <mat-icon>description</mat-icon>
+              <span>Get SelfDescription data</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/offered-resources">
+            <mat-list-item>
+              <mat-icon>list</mat-icon>
+              <span>Manage Offered Resources</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/contract-offers">
+            <mat-list-item>
+              <mat-icon>settings</mat-icon>
+              <span>Manage Contract Offers</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/representations">
+            <mat-list-item>
+              <mat-icon>data_usage</mat-icon>
+              <span>Manage Representation</span>
+            </mat-list-item>
+          </a>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon mat-list-icon>policy</mat-icon>
+              <span>Policies Management</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a routerLink="/under-construction">
+            <mat-list-item>
+              <mat-icon>visibility</mat-icon>
+              <span>Display policies</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/under-construction">
+            <mat-list-item>
+              <mat-icon>delete</mat-icon>
+              <span>Delete Policies</span>
+            </mat-list-item>
+          </a>
+        </mat-expansion-panel>
+      </div>
+      <div *ngIf="currentUserType === 'consumer'">
+        <mat-expansion-panel #consumerPanel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon mat-list-icon>gavel</mat-icon>
+              <span>Contract Negotiation</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a routerLink="/under-construction">
+            <mat-list-item>
+              <mat-icon>assignment</mat-icon>
+              <span>Start Contract Negotiation</span>
+            </mat-list-item>
+          </a>
+          <a routerLink="/download-artifact">
+            <mat-list-item>
+              <mat-icon>get_app</mat-icon>
+              <span>Get Artifacts</span>
+            </mat-list-item>
+          </a>
+        </mat-expansion-panel>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div><router-outlet></router-outlet></div>
+</mat-sidenav-container>

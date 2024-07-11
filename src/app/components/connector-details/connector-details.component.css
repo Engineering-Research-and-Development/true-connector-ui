@@ -1,0 +1,75 @@
+.self-description-card {
+  margin: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.self-description-title {
+  margin: 0;
+  color: #6200ea;
+  font-weight: 700;
+  font-size: 1.5em;
+}
+
+.self-description-content {
+  margin: 15px 0;
+}
+
+.content-flex {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px;
+}
+
+p {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  line-height: 2;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p mat-icon {
+  font-size: 22px;
+}
+
+p strong {
+  color: #383838;
+  margin-right: 10px;
+}
+
+.headtitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.headtitle .back h1 {
+  margin: 10px 0;
+  color: #8b1e74;
+}
+
+@media (max-width: 1200px) {
+  .content-flex {
+    flex-direction: column;
+  }
+
+  .self-description-card {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  button[mat-button] {
+    width: 100%;
+  }
+}

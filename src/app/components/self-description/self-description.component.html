@@ -1,0 +1,101 @@
+<div *ngIf="loading" class="item">
+  <mat-card class="self-description-card">
+    <ngx-skeleton-loader count="15" appearance="line" animation="pulse" />
+  </mat-card>
+</div>
+
+<div *ngIf="!loading">
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"></mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <h1>{{ selfDescriptionData["ids:title"][0]["@value"] }}</h1>
+        </div>
+      </div>
+      <div class="content-flex">
+        <div>
+          <p><strong>ID:</strong> {{ selfDescriptionData["@id"] }}</p>
+          <p>
+            <strong>Type:</strong>
+            {{ removeIdsPrefix(selfDescriptionData["@type"]) }}
+          </p>
+          <p>
+            <strong>Security Profile:</strong>
+            {{
+              removeIdsaCodePrefix(
+                selfDescriptionData["ids:securityProfile"]["@id"]
+              )
+            }}
+          </p>
+          <p>
+            <strong>Description:</strong>
+            {{ selfDescriptionData["ids:description"][0]["@value"] }}
+          </p>
+          <p>
+            <strong>Curator:</strong>
+            {{ selfDescriptionData["ids:curator"]["@id"] }}
+          </p>
+          <p>
+            <strong>Maintainer:</strong>
+            {{ selfDescriptionData["ids:maintainer"]["@id"] }}
+          </p>
+          <p>
+            <strong>Outbound model version:</strong>
+            {{ selfDescriptionData["ids:outboundModelVersion"] }}
+          </p>
+          <p>
+            <strong>Inbound model version:</strong>
+            {{ selfDescriptionData["ids:inboundModelVersion"] }}
+          </p>
+        </div>
+
+        <div>
+          <p><strong>Default Endpoint:</strong></p>
+          <p>ID: {{ selfDescriptionData["ids:hasDefaultEndpoint"]["@id"] }}</p>
+          <p>
+            Type:
+            {{
+              removeIdsPrefix(
+                selfDescriptionData["ids:hasDefaultEndpoint"]["@type"]
+              )
+            }}
+          </p>
+          <p>
+            Access URL:
+            {{
+              selfDescriptionData["ids:hasDefaultEndpoint"]["ids:accessURL"][
+                "@id"
+              ]
+            }}
+          </p>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <h2>Resource Catalog</h2>
+      <div class="self-description-content">
+        <p><strong>ID:</strong> {{ resourceCatalog["@id"] }}</p>
+        <p>
+          <strong>Type:</strong> {{ removeIdsPrefix(resourceCatalog["@type"]) }}
+        </p>
+        <br />
+        <h3>Offered resources</h3>
+
+        <div
+          *ngFor="let offeredResource of resourceCatalog['ids:offeredResource']"
+          class="resource-section"
+        >
+          <button
+            mat-button
+            (click)="navigateToOfferedResourceDetails(offeredResource)"
+          >
+            {{ offeredResource["ids:title"][0]["@value"] }}
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,124 @@
+<div>
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <button mat-button (click)="goBack()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            Back
+          </button>
+          <h1>Contract Offer Details</h1>
+        </div>
+        <div class="buttons">
+          <button mat-button><mat-icon>edit</mat-icon></button>
+          <button mat-button color="warn"><mat-icon>delete</mat-icon></button>
+        </div>
+      </div>
+      <!-- <h2>{{ contractOffer["@id"] }}</h2> -->
+      <div class="self-description-content">
+        <p><strong>ID:</strong> {{ contractOffer["@id"] }}</p>
+        <p>
+          <strong>Type:</strong>
+          {{ removeIdsPrefix(contractOffer["@type"]) }}
+        </p>
+        <p>
+          <strong>Provider:</strong>
+          {{ contractOffer["ids:provider"]["@id"] }}
+        </p>
+
+        <p>
+          <strong>Contract Date:</strong>
+          {{
+            contractOffer["ids:contractDate"]["@value"]
+              | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+        <p>
+          <strong>Contract start:</strong>
+          {{
+            contractOffer["ids:contractStart"]["@value"]
+              | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+        <p>
+          <strong>Offered Resource Title:</strong>
+          {{ contractOffer.offeredResourceTitle }}
+        </p>
+        <p>
+          <strong>Offered Resource ID:</strong>
+          {{ contractOffer.offeredResourceId }}
+        </p>
+        <p>
+          <strong>Offered Resource Description:</strong>
+          {{ contractOffer.offeredResourceDescription }}
+        </p>
+
+        <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Permissions</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div
+            *ngFor="let permission of contractOffer['ids:permission']"
+            class="resource-section"
+          >
+            <p><strong>ID:</strong> {{ permission["@id"] }}</p>
+            <p>
+              <strong>Type:</strong> {{ removeIdsPrefix(permission["@type"]) }}
+            </p>
+            <p>
+              <strong>Action: </strong>
+              {{ removeIdsaCodePrefix(permission["ids:action"][0]["@id"]) }}
+            </p>
+            <p>
+              <strong>Title:</strong> {{ permission["ids:title"][0]["@value"] }}
+            </p>
+
+            <p>
+              <strong>Description:</strong>
+              {{ permission["ids:description"][0]["@value"] }}
+            </p>
+            <p>
+              <strong>Target:</strong> {{ permission["ids:target"]["@id"] }}
+            </p>
+          </div>
+        </mat-expansion-panel>
+        <!-- <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Contract Offers</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          *ngFor="let offer of offeredResource['ids:contractOffer']"
+          class="resource-section"
+        >
+          <button
+            mat-button
+            (click)="navigateToContractOfferDetails(offeredResource)"
+          >
+            {{ offer["@id"] }}
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Representations</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          *ngFor="let representation of offeredResource['ids:representation']"
+          class="resource-section"
+        >
+          <button
+            mat-button
+            (click)="navigateToRepresentationDetails(offeredResource)"
+          >
+            {{ representation["ids:instance"][0]["@id"] }}
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </mat-expansion-panel> -->
+      </div></mat-card-content
+    >
+  </mat-card>
+</div>

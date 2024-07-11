@@ -1,0 +1,152 @@
+<!-- <div class="headtitle">
+  <div class="back">
+    <h1>Representation details</h1>
+  </div>
+  <div class="btn-action">
+    <button mat-button><mat-icon>edit</mat-icon></button>
+    <button mat-button color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="title">{{ representation["@id"] }}</div>
+  <div class="subtitle">
+    {{ removeIdsPrefix(representation["@type"]) }}
+  </div>
+  <div class="content">
+    <p>
+      <strong>Language:</strong>
+      {{ getLanguageCode(representation["ids:language"]["@id"]) }}
+    </p>
+    <p>
+      <strong>Created:</strong>
+      {{
+        representation["ids:created"]["@value"] | date : "d MMMM y, HH:mm:ss"
+      }}
+    </p>
+    <p>
+      <strong>Resource title:</strong>
+      {{ representation["offeredResourceTitle"] }}
+    </p>
+    <p>
+      <strong>Resource ID:</strong>
+      {{ representation["offeredResourceId"] }}
+    </p>
+    <p>
+      <strong>Resource description:</strong>
+      {{ representation["offeredResourceDescription"] }}
+    </p>
+  </div>
+  <div>
+    <mat-expansion-panel class="expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Instances</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngFor="let instance of representation['ids:instance']">
+        <p><strong>ID:</strong> {{ instance["@id"] }}</p>
+        <p>
+          <strong>Type:</strong>
+          {{ removeIdsPrefix(instance["@type"]) }}
+        </p>
+        <p>
+          <strong>Check sum:</strong>
+          {{ instance["ids:checkSum"] }}
+        </p>
+
+        <p>
+          <strong>Created:</strong>
+          {{
+            instance["ids:creationDate"]["@value"] | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</div> -->
+
+<div>
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <button mat-button (click)="goBack()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            Back
+          </button>
+          <h1>Representation details</h1>
+        </div>
+
+        <div class="buttons">
+          <button mat-button><mat-icon>edit</mat-icon></button>
+          <button mat-button color="warn"><mat-icon>delete</mat-icon></button>
+        </div>
+      </div>
+
+      <h2>{{ representation["@id"] }}</h2>
+      <div class="self-description-content">
+        <p>
+          <strong>Type:</strong>
+          {{ removeIdsPrefix(representation["@type"]) }}
+        </p>
+        <p>
+          <strong>Language:</strong>
+          {{ getLanguageCode(representation["ids:language"]["@id"]) }}
+        </p>
+
+        <p>
+          <strong>Created:</strong>
+          {{
+            representation["ids:created"]["@value"]
+              | date : "d MMMM y, HH:mm:ss"
+          }}
+        </p>
+        <p>
+          <strong>Resource title:</strong>
+          {{ representation["offeredResourceTitle"] }}
+        </p>
+        <p>
+          <strong>Resource ID:</strong>
+          {{ representation["offeredResourceId"] }}
+        </p>
+        <p>
+          <strong>Resource description:</strong>
+          {{ representation["offeredResourceDescription"] }}
+        </p>
+        <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Instances</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div
+            *ngFor="let instance of representation['ids:instance']"
+            class="resource-section"
+          >
+            <div>
+              <p><strong>ID:</strong> {{ instance["@id"] }}</p>
+              <p>
+                <strong>Type:</strong>
+                {{ removeIdsPrefix(instance["@type"]) }}
+              </p>
+              <p>
+                <strong>Check sum:</strong>
+                {{ instance["ids:checkSum"] }}
+              </p>
+
+              <p>
+                <strong>Created:</strong>
+                {{
+                  instance["ids:creationDate"]["@value"]
+                    | date : "d MMMM y, HH:mm:ss"
+                }}
+              </p>
+            </div>
+
+            <hr />
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

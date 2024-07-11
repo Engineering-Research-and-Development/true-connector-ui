@@ -1,0 +1,55 @@
+<div>
+  <h2 mat-dialog-title style="text-align: center; margin-top: 10px">Login</h2>
+</div>
+<mat-dialog-content>
+  <div class="spinner"><mat-spinner *ngIf="loggingIn"></mat-spinner></div>
+
+  <form *ngIf="!loggingIn" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input
+        matInput
+        formControlName="username"
+        placeholder="Enter username"
+        required
+      />
+      <mat-error
+        *ngIf="
+          loginForm.controls['username'].invalid &&
+          (loginForm.controls['username'].dirty ||
+            loginForm.controls['username'].touched)
+        "
+      >
+        Username is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Enter password"
+        required
+      />
+      <mat-error
+        *ngIf="
+          loginForm.controls['password'].invalid &&
+          (loginForm.controls['password'].dirty ||
+            loginForm.controls['password'].touched)
+        "
+      >
+        Password is required
+      </mat-error>
+    </mat-form-field>
+    <mat-error *ngIf="errorMessage">
+      {{ errorMessage }}
+    </mat-error>
+    <div mat-dialog-actions>
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-button type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

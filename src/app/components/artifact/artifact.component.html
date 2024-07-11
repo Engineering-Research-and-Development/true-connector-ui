@@ -1,0 +1,106 @@
+<!-- <div>
+  <form [formGroup]="artifactForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Provider Endpoint</mat-label>
+      <input
+        matInput
+        formControlName="endpoint"
+        placeholder="Enter provider endpoint"
+        required
+      />
+      <mat-error *ngIf="artifactForm.controls['endpoint'].hasError('required')">
+        Provider endpoint is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Multipart Type</mat-label>
+      <mat-select formControlName="multipartType" required>
+        <mat-option *ngFor="let type of multipartTypes" [value]="type.value">{{
+          type.display
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="artifactForm.controls['multipartType'].hasError('required')"
+      >
+        Multipart type is required
+      </mat-error>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="artifactForm.invalid">
+      Fetch Artifacts
+    </button>
+  </form>
+</div> -->
+
+<div *ngIf="loading" class="item">
+  <mat-card class="self-description-card">
+    <ngx-skeleton-loader count="15" appearance="line" animation="pulse" />
+  </mat-card>
+</div>
+
+<div *ngIf="!loading">
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back">
+          <h1>Get artifacts</h1>
+        </div>
+      </div>
+      <div class="space-card">
+        <div *ngFor="let representation of representationsDetails">
+          <div class="card">
+            <div class="content">
+              <div *ngFor="let instance of representation['ids:instance']">
+                <div class="title">{{ instance["@id"] }}</div>
+                <div class="subtitle">
+                  {{ removeIdsPrefix(instance["@type"]) }}
+                </div>
+                <p>
+                  <strong>Check sum:</strong>
+                  {{ instance["ids:checkSum"] }}
+                </p>
+
+                <p>
+                  <strong>Created:</strong>
+                  {{
+                    instance["ids:creationDate"]["@value"]
+                      | date : "d MMMM y, HH:mm:ss"
+                  }}
+                </p>
+                <p>
+                  <strong>Language:</strong>
+                  {{ getLanguageCode(representation["ids:language"]["@id"]) }}
+                </p>
+                <p>
+                  <strong>Resource title:</strong>
+                  {{ representation["offeredResourceTitle"] }}
+                </p>
+                <p>
+                  <strong>Resource ID:</strong>
+                  {{ representation["offeredResourceId"] }}
+                </p>
+                <p>
+                  <strong>Resource description:</strong>
+                  {{ representation["offeredResourceDescription"] }}
+                </p>
+                <div class="btn-action">
+                  <button
+                    mat-button
+                    (click)="
+                      downloadArtifact(
+                        instance['@id'],
+                        representation['offeredResourceTitle']
+                      )
+                    "
+                  >
+                    <mat-icon>download</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,56 @@
+<div *ngIf="loading" class="item">
+  <mat-card class="self-description-card">
+    <ngx-skeleton-loader count="15" appearance="line" animation="pulse" />
+  </mat-card>
+</div>
+
+<div *ngIf="!loading">
+  <mat-card class="self-description-card">
+    <mat-card-title class="self-description-title"> </mat-card-title>
+    <mat-card-content>
+      <div class="headtitle">
+        <div class="back"><h1>Manage Contract Offers</h1></div>
+        <div class="buttons">
+          <button mat-button><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+      <div class="space-card">
+        <div *ngFor="let contractOffer of contractOffers">
+          <div class="card">
+            <div class="title">{{ contractOffer["@id"] }}</div>
+            <div class="subtitle">
+              {{ removeIdsPrefix(contractOffer["@type"]) }}
+            </div>
+            <div class="content">
+              <p>
+                <strong>Resource title:</strong>
+                {{ contractOffer["offeredResourceTitle"] }}
+              </p>
+              <p>
+                <strong>Resource ID:</strong>
+                {{ contractOffer["offeredResourceId"] }}
+              </p>
+              <p>
+                <strong>Resource description:</strong>
+                {{ contractOffer["offeredResourceDescription"] }}
+              </p>
+            </div>
+            <div class="btn-action">
+              <button
+                mat-button
+                (click)="navigateToContractOfferDetails(contractOffer)"
+                d
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-button><mat-icon>edit</mat-icon></button>
+              <button mat-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
