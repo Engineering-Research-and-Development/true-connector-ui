@@ -14,5 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set execute permission for deploy.sh
+        run: chmod +x ./ci/deploy.sh
+
       - name: Run Creating Docker Image from DataApp repo
         run: ./ci/deploy.sh
