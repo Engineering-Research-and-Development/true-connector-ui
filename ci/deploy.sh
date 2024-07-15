@@ -6,5 +6,5 @@ cd ..
 echo "TRUE Connector UI is ready"
 echo "Starting deployment to Docker Hub"
 sudo docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-sudo docker push rdlabengpa/true_connector_ui:develop
+sudo docker push rdlabengpa/ids_true_connector_ui:develop
 echo "TRUE Connector UI deployed to Docker Hub"
