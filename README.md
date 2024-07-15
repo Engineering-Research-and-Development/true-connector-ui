@@ -1,10 +1,10 @@
 # TRUE Connector UI Application
 
-![](https://github.com/Engineering-Research-and-Development/true-connector/raw/main/doc/TRUE_Connector_Logo.png?raw=true)
+[![License: AGPL](https://img.shields.io/github/license/Engineering-Research-and-Development/true-connector-execution_core_container.svg)](https://opensource.org/licenses/AGPL-3.0)
+[![Docker badge](https://img.shields.io/docker/pulls/rdlabengpa/ids_true_connector_ui.svg)](https://hub.docker.com/r/rdlabengpa/ids_true_connector_ui)
+<br/>
 
-<div align="right" style="color: black; font-size: 25px;">
-   <strong> Version 1.0.0 </strong>
-</div>
+![](https://github.com/Engineering-Research-and-Development/true-connector/raw/main/doc/TRUE_Connector_Logo.png?raw=true)
 
 </br></br>
 
@@ -20,11 +20,24 @@ The TRUE Connector UI is a frontend application developed by Engineering, a lead
 - **Policies Management**: View or delete usage policies for data resources.
 - **Contract Negotiation**: Engage in contract negotiations for data sharing between provider and consumer.
 - **Multi-Account Support**: Seamlessly switch between provider and consumer roles within the application.
+- **Connector configuration**: Overview of connector configuration details previosly setup in `application.properties` of ECC, DataApp and UCApp.
+
+## Current implement features
+
+- **Self Description Management**: View self descriptions data of connector, such are offered resources, contract offers, and representations.
+- **Policies Management**: /
+- **Contract Negotiation**: Getting the artifact without usage of UCApp (no full contact negotiation flow)
+- **Multi-Account Support**: Seamlessly switch between provider and consumer roles within the application.
+- **Connector configuration**: Overview of connector configuration details previosly setup in `application.properties` of ECC, DataApp and UCApp.
+
+## User manual
+
+For comprehensive instructions and visual guides, please refer to the [User Manual](/doc/TRUE_Connector_UI_user_manual.pdf). This document includes detailed explanations and UI screenshots to help you effectively navigate and utilize all the application's features.
 
 ## Prerequisites
 
-- Node.js and npm
-- Angular CLI
+- `Node.js` and `npm`
+- `Angular CLI`
 
 ## Installation
 
@@ -57,39 +70,39 @@ The TRUE Connector UI is a frontend application developed by Engineering, a lead
 
    The TRUE Connector UI displays configuration details for other components of the TRUE Connector, such as ECC, DA, and UC. To enable these details to be shown, you can use the following environment variables:
 
-```
-TC_DATA_APP_ENDPOINT
-TC_MULTIPART_EDGE
-TC_MULTIPART_ECC
-TC_CONNECTOR_ID
-TC_IDSCP2
-TC_WS_EDGE
-TC_WS_ECC
-TC_UC_DATAAPP_URI
-TC_BROKER_URL
-TC_CACHE_TOKEN
-TC_FETCH_TOKEN_ON_STARTUP
-TC_ECC_KEYSTORE_NAME
-TC_ECC_KEY_PASSWORD
-TC_ECC_KEYSTORE_PASSWORD
-TC_ECC_ALIAS
-TC_DAPS_KEYSTORE_NAME
-TC_DAPS_KEYSTORE_PASSWORD
-TC_DAPS_KEYSTORE_ALIAS
-TC_ECC_TRUSTORE_NAME
-TC_ECC_TRUSTORE_PASSWORD
-TC_ECC_FIREWALL
-TC_AES256_SECRET_KEY
-TC_DA_KEYSTORE_NAME
-TC_DA_KEY_PASSWORD
-TC_DA_KEYSTORE_PASSWORD
-TC_DA_ALIAS
-TC_EXTRACT_PAYLOAD_FROM_RESPONSE
-TC_ISSUER_CONNECTOR_URI
-TC_DA_FIREWALL
-TC_VALIDATE_SELF_DESCRIPTION
+   ```
+   TC_DATA_APP_ENDPOINT
+   TC_MULTIPART_EDGE
+   TC_MULTIPART_ECC
+   TC_CONNECTOR_ID
+   TC_IDSCP2
+   TC_WS_EDGE
+   TC_WS_ECC
+   TC_UC_DATAAPP_URI
+   TC_BROKER_URL
+   TC_CACHE_TOKEN
+   TC_FETCH_TOKEN_ON_STARTUP
+   TC_ECC_KEYSTORE_NAME
+   TC_ECC_KEY_PASSWORD
+   TC_ECC_KEYSTORE_PASSWORD
+   TC_ECC_ALIAS
+   TC_DAPS_KEYSTORE_NAME
+   TC_DAPS_KEYSTORE_PASSWORD
+   TC_DAPS_KEYSTORE_ALIAS
+   TC_ECC_TRUSTORE_NAME
+   TC_ECC_TRUSTORE_PASSWORD
+   TC_ECC_FIREWALL
+   TC_AES256_SECRET_KEY
+   TC_DA_KEYSTORE_NAME
+   TC_DA_KEY_PASSWORD
+   TC_DA_KEYSTORE_PASSWORD
+   TC_DA_ALIAS
+   TC_EXTRACT_PAYLOAD_FROM_RESPONSE
+   TC_ISSUER_CONNECTOR_URI
+   TC_DA_FIREWALL
+   TC_VALIDATE_SELF_DESCRIPTION
 
-```
+   ```
 
 4. **Run the application:**
 
