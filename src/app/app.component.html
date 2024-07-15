@@ -86,12 +86,6 @@
               <span>SelfDescription Management</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <a routerLink="/connector-configuration-details">
-            <mat-list-item>
-              <mat-icon>settings</mat-icon>
-              <span>Connector configuration details</span>
-            </mat-list-item>
-          </a>
           <a routerLink="/self-description">
             <mat-list-item>
               <mat-icon>description</mat-icon>
@@ -137,6 +131,14 @@
             </mat-list-item>
           </a>
         </mat-expansion-panel>
+        <div class="configuration">
+          <a routerLink="/connector-configuration-details">
+            <mat-list-item>
+              <mat-icon>settings</mat-icon>
+              <span>Connector configuration details</span>
+            </mat-list-item>
+          </a>
+        </div>
       </div>
       <div *ngIf="currentUserType === 'consumer'">
         <mat-expansion-panel #consumerPanel>
