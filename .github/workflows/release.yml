@@ -91,6 +91,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           FULL_NOTES="${{ steps.extract_notes.outputs.notes }}\n\n**Full Changelog**: ${{ steps.changelog_url.outputs.url }}"
+          echo "${FULL_NOTES}"
           gh release create v${{ github.event.inputs.releaseVersion }} --title "v${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
 
       - name: Create A Pull Request
