@@ -1,10 +1,6 @@
 name: Main release
 
 on:
-  push:
-    branches:
-      - main
-
   workflow_dispatch:
     inputs:
       releaseVersion:
@@ -46,7 +42,6 @@ jobs:
           git push origin main
 
       - name: Create and Push Release Tag
-        if: steps.update_release_version.outcome == 'success'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -72,13 +67,15 @@ jobs:
           RELEASE_VERSION=${{ github.event.inputs.releaseVersion }}
           NOTES=$(awk '/## \['"$RELEASE_VERSION"'\]/,/^## \[/' CHANGELOG.md | sed '1d;$d' || echo "No release notes found for version $RELEASE_VERSION")
           echo "${NOTES}" > release_notes.md
-          echo "::set-output name=notes::$(cat release_notes.md)"
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          cat release_notes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Get Previous Tag
         id: prev_tag
         run: |
           PREVIOUS_TAG=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) || echo "none")
-          echo "::set-output name=previous_tag::${PREVIOUS_TAG}"
+          echo "previous_tag=${PREVIOUS_TAG}" >> $GITHUB_OUTPUT
 
       - name: Create Full Changelog URL
         id: changelog_url
@@ -87,13 +84,13 @@ jobs:
           CURRENT_TAG=v${{ github.event.inputs.releaseVersion }}
           PREVIOUS_TAG=${{ steps.prev_tag.outputs.previous_tag }}
           CHANGELOG_URL="${REPO_URL}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
-          echo "::set-output name=url::${CHANGELOG_URL}"
+          echo "url=${CHANGELOG_URL}" >> $GITHUB_OUTPUT
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          FULL_NOTES="$(cat release_notes.md)\n\n**Full Changelog**: ${{ steps.changelog_url.outputs.url }}"
+          FULL_NOTES="${{ steps.extract_notes.outputs.notes }}\n\n**Full Changelog**: ${{ steps.changelog_url.outputs.url }}"
           gh release create v${{ github.event.inputs.releaseVersion }} --title "v${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
 
       - name: Create A Pull Request
