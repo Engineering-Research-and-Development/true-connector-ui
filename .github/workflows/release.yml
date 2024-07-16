@@ -40,15 +40,10 @@ jobs:
       - name: Check and Update to Release Version
         id: update_release_version
         run: |
-          CURRENT_VERSION=$(jq -r .version package.json)
-          if [ "$CURRENT_VERSION" != "${{ github.event.inputs.releaseVersion }}" ]; then
-            npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
-            git add package.json package-lock.json
-            git commit -m "[release] Update to version ${{ github.event.inputs.releaseVersion }}"
-            git push origin main
-          else
-            echo "Version is already $CURRENT_VERSION, no need to update."
-          fi
+          npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
+          git add package.json package-lock.json
+          git commit -m "[release] Update to version ${{ github.event.inputs.releaseVersion }}"
+          git push origin main
 
       - name: Create and Push Release Tag
         if: steps.update_release_version.outcome == 'success'
