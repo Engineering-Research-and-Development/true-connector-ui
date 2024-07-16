@@ -1,9 +1,9 @@
-name: Master release
+name: Main release
 
 on:
   push:
     branches:
-      - master
+      - main
 
   workflow_dispatch:
     inputs:
@@ -11,11 +11,11 @@ on:
         description: "Release version (e.g., 1.0.0)"
         required: true
       developmentVersion:
-        description: "Next development version(e.g. 1.1.0)"
+        description: "Next development version (e.g., 1.1.0)"
         required: true
 
 jobs:
-  master_release:
+  main_release:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +45,7 @@ jobs:
             npm version ${{ github.event.inputs.releaseVersion }} --no-git-tag-version
             git add package.json package-lock.json
             git commit -m "[release] Update to version ${{ github.event.inputs.releaseVersion }}"
-            git push origin master
+            git push origin main
           else
             echo "Version is already $CURRENT_VERSION, no need to update."
           fi
@@ -63,7 +63,7 @@ jobs:
           npm version ${{ github.event.inputs.developmentVersion }} --no-git-tag-version
           git add package.json package-lock.json
           git commit -m "[release] Bump to next development version ${{ github.event.inputs.developmentVersion }}"
-          git push origin master
+          git push origin main
 
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
@@ -105,9 +105,9 @@ jobs:
         uses: thomaseizinger/create-pull-request@1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          head: master
+          head: main
           base: develop
-          title: Released master into develop
+          title: Released main into develop
           body: |
             Hi!
             This PR was created in response to a workflow run.
