@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2024-07-16
+
+### Changed
+
+- Fix release.yml script
+
 ## [1.0.0] - 2024-07-16
 
 ### Added
