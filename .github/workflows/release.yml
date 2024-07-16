@@ -70,7 +70,7 @@ jobs:
         id: extract_notes
         run: |
           RELEASE_VERSION=${{ github.event.inputs.releaseVersion }}
-          NOTES=$(awk '/## \['$RELEASE_VERSION'\]/,/^## \[/' CHANGELOG.md | sed '$d' | sed '1d')
+          NOTES=$(awk '/## \['"$RELEASE_VERSION"'\]/,/^## \[/' CHANGELOG.md | sed '1d;$d' || echo "No release notes found for version $RELEASE_VERSION")
           echo "${NOTES}" > release_notes.md
           echo "::set-output name=notes::$(cat release_notes.md)"
 
@@ -83,7 +83,7 @@ jobs:
       - name: Create Full Changelog URL
         id: changelog_url
         run: |
-          REPO_URL="https://github.com/Engineering-Research-and-Development/true-connector"
+          REPO_URL="https://github.com/Engineering-Research-and-Development/true-connector-ui"
           CURRENT_TAG=v${{ github.event.inputs.releaseVersion }}
           PREVIOUS_TAG=${{ steps.prev_tag.outputs.previous_tag }}
           CHANGELOG_URL="${REPO_URL}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
@@ -94,7 +94,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           FULL_NOTES="$(cat release_notes.md)\n\n**Full Changelog**: ${{ steps.changelog_url.outputs.url }}"
-          gh release create v${{ github.event.inputs.releaseVersion }} --title "Release ${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
+          gh release create v${{ github.event.inputs.releaseVersion }} --title "v${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
 
       - name: Create A Pull Request
         uses: thomaseizinger/create-pull-request@1.4.0
