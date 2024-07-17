@@ -69,7 +69,7 @@ jobs:
           if [ -z "$NOTES" ]; then
             NOTES="No release notes found for version $RELEASE_VERSION"
           fi
-          echo "${NOTES}" > release_notes.md
+          echo -e "${NOTES}\n\n" > release_notes.md
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           cat release_notes.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -81,7 +81,7 @@ jobs:
           if [ "$TAG_COUNT" -lt 2 ]; then
             PREVIOUS_TAG="none"
           else
-            PREVIOUS_TAG=$(git tag --sort=-creatordate | head -n 2 | tail -n 1)
+            PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git describe --abbrev=0 --tags)^)
           fi
           echo "previous_tag=${PREVIOUS_TAG}" >> $GITHUB_OUTPUT
 
@@ -91,7 +91,11 @@ jobs:
           REPO_URL="https://github.com/Engineering-Research-and-Development/true-connector-ui"
           CURRENT_TAG=${{ github.event.inputs.releaseVersion }}
           PREVIOUS_TAG=${{ steps.prev_tag.outputs.previous_tag }}
-          CHANGELOG_URL="${REPO_URL}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
+          if [ "${PREVIOUS_TAG}" == "none" ]; then
+            CHANGELOG_URL="${REPO_URL}/releases/tag/${CURRENT_TAG}"
+          else
+            CHANGELOG_URL="${REPO_URL}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
+          fi
           echo "url=${CHANGELOG_URL}" >> $GITHUB_OUTPUT
 
       - name: Create Release
