@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git tag -a v${{ github.event.inputs.releaseVersion }} -m "Release version ${{ github.event.inputs.releaseVersion }}"
-          git push origin v${{ github.event.inputs.releaseVersion }}
+          git tag -a ${{ github.event.inputs.releaseVersion }} -m "Release version ${{ github.event.inputs.releaseVersion }}"
+          git push origin ${{ github.event.inputs.releaseVersion }}
 
       - name: Bump Development Version
         run: |
@@ -65,7 +65,10 @@ jobs:
         id: extract_notes
         run: |
           RELEASE_VERSION=${{ github.event.inputs.releaseVersion }}
-          NOTES=$(awk '/## \['"$RELEASE_VERSION"'\]/,/^## \[/' CHANGELOG.md | sed '1d;$d' || echo "No release notes found for version $RELEASE_VERSION")
+          NOTES=$(awk '/## \['"$RELEASE_VERSION"'\]/{flag=1;next}/^## \[/{flag=0}flag' CHANGELOG.md)
+          if [ -z "$NOTES" ]; then
+            NOTES="No release notes found for version $RELEASE_VERSION"
+          fi
           echo "${NOTES}" > release_notes.md
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           cat release_notes.md >> $GITHUB_OUTPUT
@@ -74,14 +77,19 @@ jobs:
       - name: Get Previous Tag
         id: prev_tag
         run: |
-          PREVIOUS_TAG=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) || echo "none")
+          TAG_COUNT=$(git tag | wc -l)
+          if [ "$TAG_COUNT" -lt 2 ]; then
+            PREVIOUS_TAG="none"
+          else
+            PREVIOUS_TAG=$(git tag --sort=-creatordate | head -n 2 | tail -n 1)
+          fi
           echo "previous_tag=${PREVIOUS_TAG}" >> $GITHUB_OUTPUT
 
       - name: Create Full Changelog URL
         id: changelog_url
         run: |
           REPO_URL="https://github.com/Engineering-Research-and-Development/true-connector-ui"
-          CURRENT_TAG=v${{ github.event.inputs.releaseVersion }}
+          CURRENT_TAG=${{ github.event.inputs.releaseVersion }}
           PREVIOUS_TAG=${{ steps.prev_tag.outputs.previous_tag }}
           CHANGELOG_URL="${REPO_URL}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
           echo "url=${CHANGELOG_URL}" >> $GITHUB_OUTPUT
@@ -92,7 +100,7 @@ jobs:
         run: |
           FULL_NOTES="${{ steps.extract_notes.outputs.notes }}\n\n**Full Changelog**: ${{ steps.changelog_url.outputs.url }}"
           echo "${FULL_NOTES}"
-          gh release create v${{ github.event.inputs.releaseVersion }} --title "v${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
+          gh release create ${{ github.event.inputs.releaseVersion }} --title "${{ github.event.inputs.releaseVersion }}" --notes "${FULL_NOTES}"
 
       - name: Create A Pull Request
         uses: thomaseizinger/create-pull-request@1.4.0
